@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
 
     if (redirect) {
-      window.location.href = "/";
+      window.location.hash = "/";
     }
   };
 
