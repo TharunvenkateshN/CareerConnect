@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
   Mail,
@@ -394,12 +395,12 @@ const SignUp = () => {
           {/* Already have account link */}
           <div className='text-center text-sm text-gray-600'>
             Already have an account?{' '}
-            <a
-              href='/login'
+            <Link
+              to='/login'
               className='text-blue-600 hover:text-purple-600 font-medium transition-colors duration-200'
             >
               Sign In
-            </a>
+            </Link>
           </div>
         </form>
       </motion.div>

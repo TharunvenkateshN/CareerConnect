@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
   Mail,
@@ -104,7 +105,7 @@ const Login = () => {
 
       // Redirect based on user role
       setTimeout(() => {
-        const redirectPath = user.role === 'employer'
+        const redirectPath = role === 'employer'
           ? '/employer-dashboard'
           : '/find-jobs';
 
@@ -270,12 +271,12 @@ const Login = () => {
           <div className='text-center'>
             <p className='text-sm text-gray-600'>
               Don't have an account?{' '}
-              <a
-                href='/signup'
+              <Link
+                to='/signup'
                 className='text-blue-600 hover:underline hover:text-purple-600 font-medium'
               >
                 Sign Up
-              </a>
+              </Link>
             </p>
           </div>
         </form>
