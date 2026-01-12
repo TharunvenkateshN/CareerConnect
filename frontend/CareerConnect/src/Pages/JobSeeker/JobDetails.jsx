@@ -17,10 +17,13 @@ import { API_PATHS } from '../../utils/apiPaths'
 import DashboardLayout from '../../components/layout/DashboardLayout'
 import toast from 'react-hot-toast'
 import moment from 'moment'
+import { useAuth } from '../../context/AuthContext'
 
 const JobDetails = () => {
   const { jobId } = useParams()
   const navigate = useNavigate()
+  const { isAuthenticated } = useAuth()
+
   const [job, setJob] = useState(null)
   const [loading, setLoading] = useState(true)
   const [applying, setApplying] = useState(false)
@@ -32,25 +35,24 @@ const JobDetails = () => {
       try {
         setLoading(true)
 
-        const [jobRes, savedRes, appRes] = await Promise.all([
-          axiosInstance.get(API_PATHS.JOBS.GET_JOB_BY_ID(jobId)),
-          axiosInstance.get(API_PATHS.SAVE_JOB.GET_SAVED_JOBS),
-          axiosInstance.get(API_PATHS.APPLICATIONS.APPLY_TO_JOB(jobId) + '/../my')
-        ])
-
+        // 1. Fetch Job Details (Public)
+        const jobRes = await axiosInstance.get(API_PATHS.JOBS.GET_JOB_BY_ID(jobId))
         setJob(jobRes.data.job)
 
-        // Check if saved
-        const savedList = savedRes.data.data || []
-        setIsSaved(savedList.some(item => item.job._id === jobId))
+        // 2. Fetch User Specific Data (Protected) - Only if logged in
+        if (isAuthenticated) {
+          try {
+            const [savedRes, appRes] = await Promise.all([
+              axiosInstance.get(API_PATHS.SAVE_JOB.GET_SAVED_JOBS),
+              axiosInstance.get(API_PATHS.APPLICATIONS.GET_ALL_APPLICATIONS(jobId) + '/../my')
+            ])
 
-        // Check if applied
-        // Wait, looking at routes: router.get("/my", protect, getMyApplications);
-        // apiPaths has APPLICATION.APPLY_TO_JOB but no GET_MY_APPLICATIONS explicitly defined well in the key I used?
-        // Let's check apiPaths content again. It has GET_ALL_APPLICATIONS but that takes an ID? 
-        // Ah, backend route is /api/applications/my. 
-        // apiPaths has: GET_ALL_APPLICATIONS: (id) => `/api/applications/job/${id}` (This is for employer)
-        // Ensure I use correct path for my applications.
+            const savedList = savedRes.data.data || []
+            setIsSaved(savedList.some(item => item.job._id === jobId))
+          } catch (authError) {
+            console.warn("Could not fetch user data", authError);
+          }
+        }
       } catch (error) {
         console.error('Error fetching job details:', error)
       } finally {
@@ -58,7 +60,7 @@ const JobDetails = () => {
       }
     }
     fetchJobDetails()
-  }, [jobId])
+  }, [jobId, isAuthenticated])
 
   // Separate effect to check application status properly to avoid Promise.all failure if one fails
   useEffect(() => {
