@@ -81,6 +81,7 @@ export const EMPLOYER_MENU = [
 
 export const JOB_SEEKER_MENU = [
   { id: "find-jobs", label: "Find Jobs", icon: Search },
+  { id: "applied-jobs", label: "Applied Jobs", icon: FileText },
   { id: "saved-jobs", label: "Saved Jobs", icon: NavbarBookmark },
   { id: "profile", label: "My Profile", icon: Users },
 ];

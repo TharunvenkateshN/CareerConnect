@@ -13,6 +13,7 @@ import JobSeekerDashboard from "./Pages/JobSeeker/JobSeekerDashboard"
 import JobDetails from "./Pages/JobSeeker/JobDetails"
 import SavedJobs from "./Pages/JobSeeker/SavedJobs"
 import UserProfile from "./Pages/JobSeeker/UserProfile"
+import AppliedJobs from "./Pages/JobSeeker/AppliedJobs"
 
 import EmployerDashboard from "./Pages/Employer/EmployerDashboard"
 import JobPostingForm from "./Pages/Employer/JobPostingForm"
@@ -36,6 +37,7 @@ const App = () => {
           <Route path="/find-jobs" element={<JobSeekerDashboard />} />
           <Route path="/job/:jobId" element={<JobDetails />} />
           <Route path="/saved-jobs" element={<SavedJobs />} />
+          <Route path="/applied-jobs" element={<AppliedJobs />} />
           <Route path="/profile" element={<UserProfile />} />
 
           {/*Protected Routes*/}
