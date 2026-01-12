@@ -49,31 +49,21 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="flex flex-col sm:flex-row justify-center gap-4 items-center mb-16"
           >
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+            <Link
+              to="/find-jobs"
               className="group bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2 text-lg font-semibold"
-              onClick={() => navigate("/find-jobs")}
             >
               <Search className="w-5 h-5" />
               <span>Find Jobs</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </motion.button>
+            </Link>
 
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+            <Link
+              to={isAuthenticated && user?.role === "employer" ? "/employer-dashboard" : "/login"}
               className="bg-white border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-xl hover:bg-blue-50 transition-all duration-300 shadow-sm hover:shadow-lg flex items-center gap-2 text-lg font-semibold"
-              onClick={() =>
-                navigate(
-                  isAuthenticated && user?.role === "employer"
-                    ? "/employer-dashboard"
-                    : "/login"
-                )
-              }
             >
-              <span>Post a Job</span>
-            </motion.button>
+              <span>{isAuthenticated && user?.role === "employer" ? "Dashboard" : "Post a Job"}</span>
+            </Link>
           </motion.div>
 
           {/* Statistics Section */}

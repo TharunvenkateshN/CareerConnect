@@ -157,8 +157,9 @@ const DashboardLayout = ({ children, activeMenu }) => {
 const NavigationItem = ({ item, isActive, onClick, isCollapsed }) => {
     const Icon = item.icon;
     return (
-        <button
-            onClick={() => onClick(item.id)}
+        <Link
+            to={`/${item.id}`}
+            onClick={() => onClick(item.id)} // Keep onClick for mobile sidebar closing logic
             className={`w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200
         ${isActive
                     ? "bg-blue-50 text-blue-700"
@@ -174,7 +175,7 @@ const NavigationItem = ({ item, isActive, onClick, isCollapsed }) => {
             {isActive && !isCollapsed && (
                 <div className="ml-auto w-1.5 h-1.5 rounded-full bg-blue-600"></div>
             )}
-        </button>
+        </Link>
     );
 };
 
