@@ -59,8 +59,7 @@ const JobPostingForm = () => {
 
       await axiosInstance.post(API_PATHS.JOBS.POST_JOB, payload)
       toast.success('Job posted successfully!')
-      navigate('/curr-jobs-employer') // Redirects to manage jobs usually, but let's check correct route name
-      navigate('/manage-jobs') // Correct route based on App.jsx
+      navigate('/manage-jobs') // Redirect to Manage Jobs
     } catch (error) {
       console.error(error)
       toast.error(error.response?.data?.message || 'Failed to post job')
