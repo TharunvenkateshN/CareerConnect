@@ -21,7 +21,7 @@ const EmployerDashboard = () => {
         API_PATHS.DASHBOARD.OVERVIEW
       );
       if (response.status === 200) {
-        setDashboardData(response.data.data); // Assuming response.data.data based on typical pattern, will verify
+        setDashboardData(response.data);
       }
 
     } catch (error) {
@@ -53,30 +53,30 @@ const EmployerDashboard = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <StatCard
               title="Total Jobs Posted"
-              value={dashboardData?.totalJobs || 0}
+              value={dashboardData?.counts?.totalJobs || 0}
               icon={Briefcase}
               color="bg-blue-500"
               trend={{ value: 12, isPositive: true }} // Mock trend
             />
             <StatCard
               title="Active Jobs"
-              value={dashboardData?.activeJobs || 0}
+              value={dashboardData?.counts?.totalActiveJobs || 0}
               icon={Building2}
               color="bg-green-500"
             />
             <StatCard
               title="Total Applications"
-              value={dashboardData?.totalApplications || 0}
+              value={dashboardData?.counts?.totalApplications || 0}
               icon={Users}
               color="bg-purple-500"
               trend={{ value: 5, isPositive: true }}
             />
             <StatCard
-              title="Views"
-              value="1.2k" // Mock data if backend doesn't provide
+              title="Hired Candidates"
+              value={dashboardData?.counts?.totalHired || 0}
               icon={TrendingUp}
               color="bg-orange-500"
-              trend={{ value: 8, isPositive: false }}
+              trend={{ value: 8, isPositive: true }}
             />
           </div>
         )}

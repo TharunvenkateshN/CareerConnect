@@ -37,7 +37,7 @@ const JobDetails = () => {
 
         // 1. Fetch Job Details (Public)
         const jobRes = await axiosInstance.get(API_PATHS.JOBS.GET_JOB_BY_ID(jobId))
-        setJob(jobRes.data.job)
+        setJob(jobRes.data)
 
         // 2. Fetch User Specific Data (Protected) - Only if logged in
         if (isAuthenticated) {
