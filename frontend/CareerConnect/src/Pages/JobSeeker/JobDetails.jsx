@@ -44,7 +44,7 @@ const JobDetails = () => {
           try {
             const [savedRes, appRes] = await Promise.all([
               axiosInstance.get(API_PATHS.SAVE_JOB.GET_SAVED_JOBS),
-              axiosInstance.get(API_PATHS.APPLICATIONS.GET_ALL_APPLICATIONS(jobId) + '/../my')
+              axiosInstance.get('/api/applications/my')
             ])
 
             const savedList = savedRes.data.data || []
