@@ -39,7 +39,10 @@ app.use("/api/user", userRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use("/api/save-jobs", savedJobsRoutes);
-app.use("/api/analytics", analyticsRoutes);
+// Health Check Route
+app.get('/', (req, res) => {
+    res.send('CareerConnect API is running...');
+});
 
 // Serve static files from the uploads directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {}));
