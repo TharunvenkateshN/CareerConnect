@@ -1,4 +1,5 @@
-HashRouter as Router,
+import {
+  HashRouter as Router,
   Routes,
   Route,
   Navigate,
