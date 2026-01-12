@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
   Mail,
@@ -27,6 +27,7 @@ import {
 
 const SignUp = () => {
   const { login } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -139,10 +140,9 @@ const SignUp = () => {
       if (token) {
         login(response.data, token);
 
-        // Redirect based on role
+        // Redirect based on role using navigate
         setTimeout(() => {
-          window.location.href =
-            formData.role === 'employer' ? '/employer-dashboard' : '/find-jobs';
+          navigate(formData.role === 'employer' ? '/employer-dashboard' : '/find-jobs');
         }, 2000);
       }
 

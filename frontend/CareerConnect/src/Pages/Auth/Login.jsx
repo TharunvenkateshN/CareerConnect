@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
   Mail,
@@ -17,6 +17,7 @@ import { API_PATHS } from '../../utils/apiPaths'
 
 const Login = () => {
   const { login } = useAuth();
+  const navigate = useNavigate();
   const [FormData, setFormData] = React.useState({
     email: '',
     password: '',
@@ -29,8 +30,6 @@ const Login = () => {
     showPassword: false,
     success: false
   })
-
-
 
   const validatePassword = (password) => {
     if (!password.trim()) return 'Password is required.'
@@ -80,7 +79,6 @@ const Login = () => {
     }))
 
     try {
-      // Simulate API delay
       const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
         email: FormData.email,
         password: FormData.password
@@ -94,22 +92,12 @@ const Login = () => {
 
       const { token, role } = response.data;
 
-      // Redirect based on role
+      // Update local storage and auth context
+      login(response.data, token);
+
+      // Redirect using navigate instead of window.location
       setTimeout(() => {
-        window.location.href =
-          role === "employer"
-            ? "/employer-dashboard"
-            : "/find-jobs";
-      }, 2000);
-
-
-      // Redirect based on user role
-      setTimeout(() => {
-        const redirectPath = role === 'employer'
-          ? '/employer-dashboard'
-          : '/find-jobs';
-
-        window.location.href = redirectPath;
+        navigate(role === "employer" ? "/employer-dashboard" : "/find-jobs");
       }, 1500);
 
     } catch (error) {
@@ -123,6 +111,7 @@ const Login = () => {
       }))
     }
   }
+
   if (FormState.success) {
     return (
       <div className='min-h-screen flex items-center justify-center bg-gray-50 px-4'>
