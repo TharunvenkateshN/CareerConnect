@@ -4,34 +4,34 @@ const Job = require("../models/Job");
 // @desc     Apply to a job
 exports.applyToJob = async (req, res) => {
     try {
-        try {
-            if (req.user.role !== "jobseeker") {
-                return res.status(403).json({ message: "Only job seekers can apply" });
-            }
+        console.log("Applying to job:", req.params.jobId);
+        console.log("Applicant:", req.user._id, "Role:", req.user.role);
 
-            const existing = await Application.findOne({
-                job: req.params.jobId,
-                applicant: req.user._id,
-            });
-
-            if (existing) {
-                return res.status(400).json({ message: "Already applied to this job" });
-            }
-
-            const application = await Application.create({
-                job: req.params.jobId,
-                applicant: req.user._id,
-                resume: req.user.resume, // assuming resume is stored in user profile
-            });
-
-            res.status(201).json(application);
-        } catch (err) {
-            res.status(500).json({ message: err.message });
+        if (req.user.role !== "jobseeker") {
+            console.log("Application failed: User is not a jobseeker");
+            return res.status(403).json({ message: "Only job seekers can apply. Employers cannot apply to jobs." });
         }
 
+        const existing = await Application.findOne({
+            job: req.params.jobId,
+            applicant: req.user._id,
+        });
+
+        if (existing) {
+            return res.status(400).json({ message: "Already applied to this job" });
+        }
+
+        const application = await Application.create({
+            job: req.params.jobId,
+            applicant: req.user._id,
+            resume: req.user.resume, // assuming resume is stored in user profile
+        });
+
+        res.status(201).json(application);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
+
 };
 
 // @desc     Get logged-in user's applications
